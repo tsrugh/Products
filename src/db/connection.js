@@ -1,15 +1,12 @@
-import mysql2 from 'mysql2'
+import mysql2 from 'mysql2/promise.js'
 import { CONFIG_DB, SQL_ERRORS } from '../constants/constants.js'
 
 class Connection {
 
-    makeConnection () {
+    async makeConnection () {
 
-        const connection = mysql2.createConnection(CONFIG_DB)
+        const connection = await mysql2.createConnection(CONFIG_DB)
         
-        connection.connect((err) =>{
-            if(err) throw new Error(SQL_ERRORS.SQL_CONNECTION_ERROR)
-        })
         return connection
     }
 
@@ -20,5 +17,6 @@ class Connection {
     }
 
 }
+
 
 export default Connection

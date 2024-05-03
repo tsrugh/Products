@@ -1,0 +1,3 @@
+- only the managers can register other employee
+- employee must have the login and password
+- all searchs to do a update in database, is using the e-mail to search the id
