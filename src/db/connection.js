@@ -1,5 +1,5 @@
-import mysql2 from 'mysql2/promise.js'
-import { CONFIG_DB, SQL_ERRORS } from '../constants/constants.js'
+const mysql2 = require('mysql2/promise.js')
+const { CONFIG_DB, SQL_ERRORS } = require('../constants/constants.js')
 
 class Connection {
 
@@ -19,4 +19,4 @@ class Connection {
 }
 
 
-export default Connection
+module.exports = Connection

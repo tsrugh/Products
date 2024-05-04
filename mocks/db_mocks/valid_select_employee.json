@@ -1,0 +1,10 @@
+{
+    "valid": true,
+    "result": {
+        "employeeName": "lucas pereira dos santos",
+        "employeeEmail": "lucaspdsts@gmail.com",
+        "employeePhone": "11971008836"
+    },
+    "error": "",
+    "code": ""
+}

@@ -1,5 +1,0 @@
-{
-    "valid": false,
-    "error": "You have an error in your SQL syntax.",
-    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSET INTO employee (employeeName, employeeEmail, employeePhone) values ('maria ' at line 1"
-}

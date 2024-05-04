@@ -1,5 +1,0 @@
-{
-    "valid": false,
-    "error": "Error, you try to add a duplicate key.",
-    "message": "Duplicate entry 'marialucida3@gmail.com' for key 'employee.employee'"
-}

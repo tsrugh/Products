@@ -1,0 +1,6 @@
+{
+    "valid": false,
+    "result": {},
+    "error": "Error, you try to add a duplicate key.",
+    "code": "ER_DUP_ENTRY"
+}

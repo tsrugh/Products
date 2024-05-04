@@ -16,4 +16,4 @@ const SQL_ERRORS = {
     SQL_UNKOWN_ERROR: 'An unknown error has occurred.',
 }
 
-export {CONFIG_DB, SQL_ERRORS}
+module.exports = {CONFIG_DB, SQL_ERRORS}
