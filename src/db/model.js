@@ -273,27 +273,4 @@ class Model {
     }
 }
 
-async function main() {
-
-    const model = new Model()
-    // const result = await model.insertEmployee('maria lucida', 'marialucida3@gmail.com', '11987456325');
-    //const result = await model.insertEmployee('matheus matheus', 'matheuss@gmail.com', '11964881935');
-    //console.log(result)
-
-    //const result = await model.searchId('employeeId', 'employee', 'employeeEmail', 'lucaspdsts@gmail.coM')
-    //model.searchId('userEmployeeId', 'userEmployee', 'userEmployeeLogin', 'tsrugh')
-
-    //const result = await model.updateEmplyee(0/0, '11971008836', 'lucaspdsts@gmail.com')
-    // console.log(result)
-
-    const result = await model.searchInfo({copo: 'breja'})
-    // console.log(result)
-
-    //fs.appendFileSync('../../mocks/db_mocks/invalid_seachId_zero_occurrences.json', JSON.stringify(result))
-    fs.writeFileSync('../../mocks/db_mocks/teste.json', JSON.stringify(result))
-
-}
-
-main()
-
 module.exports = Model
