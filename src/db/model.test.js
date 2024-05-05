@@ -1,4 +1,4 @@
-const { describe, it, before } = require('mocha')
+const { describe, it } = require('mocha')
 const assert = require('assert')
 const { SQL_ERRORS } = require("../constants/constants.js");
 const { createSandbox } = require('sinon');
@@ -11,10 +11,10 @@ const sinon = createSandbox()
 
 const mocks = {
     duplicateEntry: require('../../mocks/db_mocks/invalid_duplicate_entry_error.json'),
-    syntaxError: require('../../mocks/db_mocks/invalid_syntax_error.json'),
     unknownError: require('../../mocks/db_mocks/invalid_unknow_error.json'),
     invalidId: require('../../mocks/db_mocks/invalid_update_id.json'),
     zeroRecords: require('../../mocks/db_mocks/invalid_zero_occurrences.json'),
+    invalidSizeValue: require('../../mocks/db_mocks/invalid_too_long_value.json'),
     validInsert: require('../../mocks/db_mocks/valid_insert_employee.json'),
     validSelect: require('../../mocks/db_mocks/valid_select_employee.json'),
     validUpdate: require('../../mocks/db_mocks/valid_update.json'),
@@ -33,20 +33,23 @@ stubInsertEmployee.withArgs('matheus matheus', 'matheus@gmail.com', '11964881935
 .resolves(mocks.duplicateEntry)
 
 stubInsertEmployee.withArgs('juliano neves', 'juliano@gmail.com', '119748514285')
-.resolves(mocks.unknownError)
+.resolves(mocks.invalidSizeValue)
 
 stubInsertEmployee.withArgs('juliano neves', 'julianocmn@gmail.com', '11986249481')
 .resolves(mocks.validInsert)
 
 // UPDATE
-stubUpdateEmployee.withArgs('lucas pereira', '564654657465465465', 'lucaspdsts@gmail.com')
-.resolves(mocks.unknownError)
+ stubUpdateEmployee.withArgs('lucas pereira', '564654657465465465', 'lucaspdsts@gmail.com')
+ .resolves(mocks.invalidSizeValue)
 
 stubUpdateEmployee.withArgs('lucas pereira', '11987456325', 'lucaspdsts@gmail.co')
 .resolves(mocks.zeroRecords)
 
 stubUpdateEmployee.withArgs('lucas pereira', '11987456982', 'lucaspdsts@gmail.com')
 .resolves(mocks.validUpdate)
+
+stubUpdateEmployee.withArgs('lucas pereira', '11971235687', {hello: 'world'})
+.resolves(mocks.unknownError)
 
 //SELECT
 stubSelectEmployee.withArgs('some@mail.com')
@@ -69,9 +72,9 @@ describe('Test all insert statements', () => {
 
     })
 
-    it('should return the error unkown to length of phone number bigger than 11', async () => {
+    it('should return the error too long to length of phone number bigger than 11', async () => {
 
-        const excepted = { valid: false, result: {}, error: "An unknown error has occurred.", code: "UNKOWN" }
+        const excepted = {"valid":false,"result":{},"error":"The passed value is too long.","code":"ER_DATA_TOO_LONG"}
         const results = await model.insertEmployee('juliano neves', 'juliano@gmail.com', '119748514285')
         assert.deepStrictEqual(results, excepted)
 
@@ -98,10 +101,18 @@ describe('Test all insert statements', () => {
 describe('Test all update statements', () => {
 
 
-    it('should return the error unkown to length of phone number bigger than 11', async () => {
+    it('should return the error too long to length of phone number bigger than 11', async () => {
+
+        const excepted = {"valid":false,"result":{},"error":"The passed value is too long.","code":"ER_DATA_TOO_LONG"}
+        const results = await model.updateEmplyee('lucas pereira', '564654657465465465', 'lucaspdsts@gmail.com')
+        assert.deepStrictEqual(results, excepted)
+
+    })
+
+    it('should return the error unkown to pass a object by parameter in email', async () => {
 
         const excepted = { valid: false, result: {}, error: "An unknown error has occurred.", code: "UNKOWN" }
-        const results = await model.updateEmplyee('lucas pereira', '564654657465465465', 'lucaspdsts@gmail.com')
+        const results = await model.updateEmplyee('lucas pereira', '11971235687', {hello: 'world'})
         assert.deepStrictEqual(results, excepted)
 
     })

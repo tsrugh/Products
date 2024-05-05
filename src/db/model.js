@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { SQL_ERRORS } = require("../constants/constants.js")
-const Connection = require( "./connection.js")
+const Connection = require("./connection.js")
 
 
 class Model {
@@ -28,30 +28,30 @@ class Model {
             ])
             // close the connection
             this.#conn.closeConnection(sql)
-            if (results.affectedRows == 1) {
-                return {
-                    valid: true,
-                    result: { id: results.insertId },
-                    error: '',
-                    code: ''
-                }
+
+            return {
+                valid: true,
+                result: { id: results.insertId },
+                error: '',
+                code: ''
             }
+
         } catch (error) {
             // close the connection
             this.#conn.closeConnection(sql)
             switch (error.code) { //ER_DATA_TOO_LONG Data too long for column 'employeePhone' at row 1
-                case 'ER_PARSE_ERROR':
-                    return {
-                        valid: false,
-                        result: {},
-                        error: SQL_ERRORS.SQL_SYNTAX,
-                        code: error.code
-                    }
                 case 'ER_DUP_ENTRY':
                     return {
                         valid: false,
                         result: {},
                         error: SQL_ERRORS.SQL_DUPLICATE_ENTRY,
+                        code: error.code
+                    }
+                case 'ER_DATA_TOO_LONG':
+                    return {
+                        valid: false,
+                        result: {},
+                        error: SQL_ERRORS.SQL_TOO_LONG,
                         code: error.code
                     }
                 default:
@@ -97,31 +97,18 @@ class Model {
             const { employeeId } = result
             const [results, fields] = await sql.query('UPDATE employee set employeeName = ?, employeePhone = ? WHERE employeeId = ?', [name, phone, employeeId])
             this.#conn.closeConnection(sql)
-            if (results.affectedRows == 1) {
-                return {
-                    valid: true,
-                    result: { affectedRows: results.affectedRows },
-                    error: '',
-                    code: ''
-                }
-            } 
-            // else {
-            //     throw {
-            //         code: 'ER_UPDATE',
-            //     }
-            // }
+
+            return {
+                valid: true,
+                result: { affectedRows: results.affectedRows },
+                error: '',
+                code: ''
+            }
+
         } catch (error) {
-            
+
             this.#conn.closeConnection(sql)
             switch (error.code) {
-                //syntax error
-                case 'ER_PARSE_ERROR':
-                    return {
-                        valid: false,
-                        result: {},
-                        error: SQL_ERRORS.SQL_SYNTAX,
-                        code: error.code
-                    }
                 // none register
                 case 'ER_ZERO_RECORDS':
                     return {
@@ -130,13 +117,13 @@ class Model {
                         error: SQL_ERRORS.SQL_DONT_HAVE_REGISTER,
                         code: error.code
                     }
-                // case 'ER_UPDATE':
-                //     return {
-                //         valid: false,
-                //         result: {},
-                //         error: SQL_ERRORS.SQL_UPDATE_ERROR,
-                //         code: error.code
-                //     }
+                case 'ER_DATA_TOO_LONG':
+                    return {
+                        valid: false,
+                        result: {},
+                        error: SQL_ERRORS.SQL_TOO_LONG,
+                        code: error.code
+                    }
                 default:
                     return {
                         valid: false,
@@ -166,6 +153,7 @@ class Model {
         try {
             const query = `SELECT ${key} FROM ${table} WHERE ${field} = ?`
             const [results, fields] = await sql.query(query, [value])
+            //close connection
             this.#conn.closeConnection(sql)
             // if dosen't exists the record, throw an exception
             if (!results[0]) {
@@ -173,7 +161,6 @@ class Model {
                     code: 'ER_ZERO_RECORDS',
                 }
             }
-            // close connection
             return {
                 valid: true,
                 result: results[0],
@@ -181,16 +168,9 @@ class Model {
                 code: ''
             }
         } catch (error) {
+            //close connection
             this.#conn.closeConnection(sql)
             switch (error.code) {
-                // syntax error
-                case 'ER_PARSE_ERROR':
-                    return {
-                        valid: false,
-                        result: {},
-                        error: SQL_ERRORS.SQL_SYNTAX,
-                        code: error.code
-                    }
                 //none register
                 case 'ER_ZERO_RECORDS':
                     return {
@@ -245,14 +225,6 @@ class Model {
         } catch (error) {
             this.#conn.closeConnection(sql)
             switch (error.code) {
-                // syntax error
-                case 'ER_PARSE_ERROR':
-                    return {
-                        valid: false,
-                        result: {},
-                        error: SQL_ERRORS.SQL_SYNTAX,
-                        code: error.code
-                    }
                 // none register
                 case 'ER_ZERO_RECORDS':
                     return {

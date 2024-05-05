@@ -35,20 +35,3 @@ CREATE TABLE roles(
     rolesName varchar (15) unique,
     primary key(rolesId)
 );
-select * from employee;
-INSERT INTO employee (employeeName, employeeEmail, employeePhone) values ('lucas pereira dos santos', 'lucaspdsts@gmail.com', '11971008836');
-INSERT INTO userEmployee (userEmployeeLogin, userEmployeePass, userEmployeeIdEmployeeId) values ('tsrugh', 'umaSenha123', 1);
-insert into roles (rolesName) values ('mannager');
-
-SELECT * FROM employee;
-SELECT * FROM userEmployee;
-
-SELECT employee.employeeName as userName, roles.rolesName from employee
-join userEmployee on userEmployee.userEmployeeId = employee.employeeId
-join roles on roles.rolesId  = userEmployee.rolesId
-Where userEmployeeLogin = 'tsrugh';
-
-update roles set rolesname = 'manager' where rolesId = 1;
-
-select * from employee;
-

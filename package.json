@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "The project with focus in tests. An API with create, update and delete routs in javacript without frameworks for then.",
   "main": "index.js",
-
   "scripts": {
     "test": "npx mocha src/db/model.test.js",
-    "test:simple": "node src/db/model.test.js",
     "test:dev": "npx mocha -w src/db/model.test.js",
     "test:cov": "npx nyc npx mocha src/db/model.test.js"
   },
@@ -22,7 +20,6 @@
   "devDependencies": {
     "mocha": "^10.4.0",
     "nyc": "^15.1.0",
-    "sinon": "^17.0.1",
-    "supertest": "^7.0.0"
+    "sinon": "^17.0.1"
   }
 }

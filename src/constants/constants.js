@@ -12,7 +12,8 @@ const SQL_ERRORS = {
     SQL_DUPLICATE_ENTRY: 'Error, you try to add a duplicate key.',
     SQL_SYNTAX: 'You have an error in your SQL syntax.',
     SQL_DONT_HAVE_REGISTER: 'No records found.',
-    SQL_UPDATE_ERROR: 'Cannot update, the id is invalid',
+    SQL_UPDATE_ERROR: 'Cannot update, the id is invalid.',
+    SQL_TOO_LONG: 'The passed value is too long.',
     SQL_UNKOWN_ERROR: 'An unknown error has occurred.',
 }
 
